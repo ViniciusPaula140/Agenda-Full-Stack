@@ -1,0 +1,5 @@
+<% Para funções JS - controle de fluxos - (for, if...) %>
+<%- includes (CAMINHO/ARQUIVO) %>
+<%= Imprimir escapando caracteres  %>
+<%- Imprime SEM escapar caracteres %>
+<%# Comentários %>
