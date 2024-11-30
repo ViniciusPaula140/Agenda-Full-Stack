@@ -1,10 +1,11 @@
+const { render } = require('ejs');
 const Login = require('../models/loginModel')
 
 exports.index = (req, res) => {
-    res.render('login', {
-        errors: req.flash('errors'),
-        success: req.flash('success')
-    });
+    if(req.session.user) {
+        return res.render('login-logado')
+    }
+    res.render('login');
 }
 
 exports.register = async (req, res) => {
@@ -35,6 +36,7 @@ exports.register = async (req, res) => {
 
 // Adicione o método de login
 exports.login = async (req, res) => {
+    console.log(req.session.user)
     try {
         if(!req.body.email || !req.body.password) {
             req.flash('errors', login.errors);
@@ -72,9 +74,14 @@ exports.login = async (req, res) => {
         });
     } catch(e) {
         console.error('Erro no login:', e);
-        req.flash('errors', 'Erro interno do servidor');
+        req.flash('errors', 'Preencha todos os campos');
         req.session.save(() => {
             return res.redirect('/login/index');
         });
     }
+}
+
+exports.logout = (req, res) => {
+    req.session.destroy();
+    res.redirect('/login/index');
 }

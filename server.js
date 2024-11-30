@@ -18,7 +18,7 @@ mongoose.connect(process.env.CONNECTIONSTRING)
 // Importando as rotas e middlewares
 const routes = require('./routes');  // Importando as rotas do sistema
 const path = require('path');  // Utilitário para manipulação de caminhos de arquivos
-const { checkCsrfError, csrfMiddleware } = require('./src/middlewares/globalMiddleware');  // Importando middlewares de CSRF
+const { checkCsrfError, csrfMiddleware, middlewareGlobal } = require('./src/middlewares/globalMiddleware');  // Importando middlewares de CSRF
 
 // Importando pacotes de segurança
 const helmet = require('helmet');  // Middleware de segurança para proteger cabeçalhos HTTP
@@ -67,6 +67,8 @@ app.set('view engine', 'ejs');  // Usando EJS como engine de visualização
 app.use(csurf());  // Adiciona proteção contra CSRF nas requisições
 app.use(checkCsrfError);  // Middleware para verificar erros CSRF e não exibir para o usuário
 app.use(csrfMiddleware);  // Middleware para adicionar o token CSRF nas respostas
+
+app.use(middlewareGlobal);
 
 // Usando as rotas definidas no arquivo 'routes.js'
 app.use(routes);  // As rotas são definidas no arquivo routes.js
