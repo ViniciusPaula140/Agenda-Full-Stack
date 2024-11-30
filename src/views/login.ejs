@@ -9,8 +9,12 @@
         <div class="col-lg-8 my-3">
           <h1 class="text-center">Área de acesso</h1>
           <p class="text-center lead">Faça o seu login ou crie sua conta</p>
+          
+          <%- include('includes/mensagem') %>
+          
         
         <div class="row">
+          
           
           <div class="col-lg">
 
@@ -20,7 +24,7 @@
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <div class="mb-3">
                 <label>Seu e-mail:</label>
-                <input type="email" class="form-control" name="email">
+                <input type="email" class="form-control" name="email" autocomplete="off">
               </div>
 
               <div class="mb-3">

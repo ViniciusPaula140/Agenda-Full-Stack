@@ -9,6 +9,7 @@ route.get('/', homeController.index);
 
 //Rota para login
 route.get('/login/index', loginController.index)
+route.post('/login/register', loginController.register)
 
 
 module.exports = route //Está exports todas as rotas do router (linha 2)
