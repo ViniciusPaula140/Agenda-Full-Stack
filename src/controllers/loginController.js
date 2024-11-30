@@ -47,14 +47,14 @@ exports.login = async (req, res) => {
             return;
         }
 
-        req.flash('success', 'Login realizado com sucesso!');
-        req.session.user = login.user;
+        req.flash('success', 'Usuário criado com sucesso!');
+        req.session.user = login.user
         req.session.save(() => {
-            return res.redirect('/'); // Redireciona para a home após login
+            return res.redirect('/login/index');
         });
     } catch(e) {
         console.log(e);
-        req.flash('errors', 'Erro ao fazer login');
+        req.flash('errors', 'Erro ao criar usuário');
         req.session.save(() => {
             return res.redirect('/login/index');
         });
