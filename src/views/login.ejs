@@ -41,7 +41,7 @@
             <h4 class="text-center">Login</h4>
 
             <form action="/login/login" method="POST">
-              <input type="hidden" name="_csrf" id="<% csrfToken %>">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <div class="mb-3">
                 <label>Seu e-mail:</label>
                 <input type="email" class="form-control" name="email">

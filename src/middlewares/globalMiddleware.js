@@ -12,7 +12,7 @@ exports.checkCsrfError= (err, req, res, next) => {
         return res.render('errorPage')
     }
     next()
-}   
+} 
 
 //Middleware para Token
 exports.csrfMiddleware = (req, res, next) => {

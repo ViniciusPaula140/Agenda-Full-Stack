@@ -36,6 +36,14 @@ exports.register = async (req, res) => {
 // Adicione o método de login
 exports.login = async (req, res) => {
     try {
+        if(!req.body.email || !req.body.password) {
+            req.flash('errors', 'Credenciais inválidas');
+            req.session.save(() => {
+                return res.redirect('/login/index');
+            });
+            return;
+        }
+
         const login = new Login(req.body);
         await login.login();
 
@@ -47,14 +55,22 @@ exports.login = async (req, res) => {
             return;
         }
 
-        req.flash('success', 'Usuário criado com sucesso!');
-        req.session.user = login.user
+        if(!login.user) {
+            req.flash('errors', 'Usuário não encontrado');
+            req.session.save(() => {
+                return res.redirect('/login/index');
+            });
+            return;
+        }
+
+        req.flash('success', 'Login realizado com sucesso!');
+        req.session.user = login.user;
         req.session.save(() => {
-            return res.redirect('/login/index');
+            return res.redirect('/');
         });
     } catch(e) {
-        console.log(e);
-        req.flash('errors', 'Erro ao criar usuário');
+        console.error('Erro no login:', e);
+        req.flash('errors', 'Erro interno do servidor');
         req.session.save(() => {
             return res.redirect('/login/index');
         });
