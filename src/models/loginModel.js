@@ -17,9 +17,9 @@ class Login {
     }
 
     async login() {
-        this.valida();
-        if(this.errors.length > 0) return;
-    
+        // Removemos a validação completa e apenas limpamos os dados
+        this.cleanUp();
+        
         try {
             this.user = await LoginModel.findOne({ email: this.body.email });
     
@@ -38,7 +38,7 @@ class Login {
             this.errors.push('Erro ao realizar login');
         }
     }
- 
+    
     async register(){
         this.valida()
         if(this.errors.length > 0) return
@@ -78,7 +78,7 @@ class Login {
         if(!this.body.email) this.errors.push('E-mail é obrigatório');
         if(!this.body.password) this.errors.push('Senha é obrigatória');
         
-        if(this.body.email && !validator.isEmail(this.body.email)) {
+        if(!validator.isEmail(this.body.email)) {
             this.errors.push('E-mail inválido');
         }
         

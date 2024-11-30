@@ -37,7 +37,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         if(!req.body.email || !req.body.password) {
-            req.flash('errors', 'Credenciais inválidas');
+            req.flash('errors', login.errors);
             req.session.save(() => {
                 return res.redirect('/login/index');
             });
@@ -63,10 +63,12 @@ exports.login = async (req, res) => {
             return;
         }
 
-        req.flash('success', 'Login realizado com sucesso!');
         req.session.user = login.user;
-        req.session.save(() => {
-            return res.redirect('/');
+        // Removemos o flash de sucesso daqui
+        req.session.save(function() {
+            // E movemos para depois do save da sessão
+            req.flash('success', 'Login realizado com sucesso!');
+            return res.redirect('/login/index');
         });
     } catch(e) {
         console.error('Erro no login:', e);
