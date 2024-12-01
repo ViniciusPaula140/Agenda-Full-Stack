@@ -61,6 +61,17 @@ class Contato {
             email: this.body.email,
         }
     }
+
+    static async buscaPorId(id) {
+        if(!id) return null;
+        try {
+            const contato = await ContatoModel.findById(id);
+            return contato;
+        } catch(e) {
+            console.error('Erro ao buscar contato:', e);
+            return null;
+        }
+    }
 }
 
 module.exports = Contato;
