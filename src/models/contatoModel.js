@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 
-
 const ContatoSchema = new mongoose.Schema({
     nome: {type: String, required: true},
     sobrenome: {type: String, required: false, default:''},
@@ -10,26 +9,39 @@ const ContatoSchema = new mongoose.Schema({
     criadoEm: {type: Date, default: Date.now}
 })
 
-const ContatoModel = mongoose.model('contato', ContatoSchema) //Comando para criar no DB
+const ContatoModel = mongoose.model('Contato', ContatoSchema)
 
 class Contato {
     constructor(body) {
-        this.body = body
-        this.errors = []
-        this.contato = null 
+        this.body = body;
+        this.errors = [];
+        this.contato = null;
     }    
 
+    async register() {
+        this.valida();
+        if(this.errors.length > 0) return;
+        
+        try {
+            this.contato = await ContatoModel.create(this.body);
+        } catch(e) {
+            console.error(e);
+            throw new Error('Erro ao criar contato');
+        }
+    }
 
     valida() {
-        this.cleanUp()
+        this.cleanUp();
         
-        if(this.body.email && !validator.isEmail(this.body.email)) this.errors.push('E-mail inválido');
-        if(!this.body.nome) this.errors.push('Campo nome é obrigatório')
-        if(!this.body.email && !this.body.telefone) {
-            this.errors.push('Preencha ou email ou telefone para o contato que deseja registrar.')
+        if(this.body.email && !validator.isEmail(this.body.email)) {
+            this.errors.push('E-mail inválido');
         }
-        
-        
+        if(!this.body.nome) {
+            this.errors.push('Campo nome é obrigatório');
+        }
+        if(!this.body.email && !this.body.telefone) {
+            this.errors.push('Preencha ou email ou telefone para o contato que deseja registrar.');
+        }
     }
 
     cleanUp() {
@@ -37,7 +49,6 @@ class Contato {
             if(typeof this.body[key] !== 'string') {
                 this.body[key] = '';
             }
-            // Remover espaços em branco extras
             if(typeof this.body[key] === 'string') {
                 this.body[key] = this.body[key].trim();
             }
@@ -50,8 +61,6 @@ class Contato {
             email: this.body.email,
         }
     }
-
-
 }
 
 module.exports = Contato;
