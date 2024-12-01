@@ -1,31 +1,33 @@
-const Contato = require('../models/contatoModel')
+const Contato = require('../models/contatoModel');
 
 exports.index = (req, res) => {
-    res.render('contato')
-    return
+    res.render('contato');
 }
 
 exports.register = async (req, res) => {
-    
     try {      
-        const contato = new Contato(req.body) 
-        
-        await contato.valida()
+        const contato = new Contato(req.body);
+        await contato.valida();
 
         if(contato.errors.length > 0) {
-            res.location(req.get("Referrer"))
-            req.flash('errors', contato.errors)
-            return
+            req.flash('errors', contato.errors);
+            req.session.save(() => {
+                return res.redirect('/contato/index');
+            });
+            return;
         }
-        res.location(req.get("Referrer"))
-        req.flash('sucess', 'contato registrado com sucesso!')
-        return
 
-    }
-    catch(e) {
-        console.log(e)
-        return res.render('errorPage')
-    }
+        await contato.register(); // Adicionando o método register
 
-    
+        req.flash('success', 'Contato registrado com sucesso!');
+        req.session.save(() => {
+            return res.redirect('/contato/index');
+        });
+    } catch(e) {
+        console.log(e);
+        req.flash('errors', 'Erro ao salvar o contato');
+        req.session.save(() => {
+            return res.redirect('/contato/index');
+        });
+    }
 }
