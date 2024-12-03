@@ -72,6 +72,36 @@ class Contato {
             return null;
         }
     }
+
+    static async buscaContatos() {
+        try {
+            const contatos = await ContatoModel.find()
+                .sort({ criadoEm: -1 }); // -1 para ordem decrescente (mais novos primeiro)
+            return contatos;
+        } catch(e) {
+            console.error('Erro ao buscar contatos:', e);
+            throw new Error('Erro ao buscar contatos');
+        }
+    }
+
+    static async delete(id) {
+        if(typeof id !== 'string') return;
+        try {
+            const contatos = await ContatoModel.findOneAndDelete(id)
+                .sort({ criadoEm: -1 }); // -1 para ordem decrescente (mais novos primeiro)
+            return contatos;
+        } catch(e) {
+            console.error('Erro ao buscar contatos:', e);
+            throw new Error('Erro ao buscar contatos');
+        }
+    }
+
+    async edit(id) {
+        if(typeof id !== 'string') return;
+        this.valida();
+        if(this.errors.length > 0 ) return;
+        this.contato = await ContatoModel.findByIdAndUpdate(id, this.body, {new: true})
+    }
 }
 
 module.exports = Contato;

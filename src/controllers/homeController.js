@@ -1,9 +1,13 @@
-exports.index = (req, res) => {
-    res.render('index', {
-        success: req.flash('success'),
-        errors: req.flash('errors'),
-        user: req.session.user
-    });
+const Contato = require('../models/contatoModel')
+
+exports.index = async (req, res) => {
+    try {
+        const contatos = await Contato.buscaContatos();
+        res.render('index', { contatos });
+    } catch(e) {
+        console.log(e);
+        res.render('404');
+    }
 };
 
 

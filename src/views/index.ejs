@@ -10,20 +10,33 @@
 
           <%- include('includes/mensagem') %>
 
-
+          <% if(contatos.length > 0) { %>
             <div class="responsive-table">
               <table class="table my-3">
                 <tr>
-                  <td>Vinicius</td>
-                  <td>Paula</td>
-                  <td>40028922</td>
-                  <td>vini@gmail.com</td>
+                  <th>Nome</th>
+                  <th>Sobrenome</th>
+                  <th>Telefone</th>
+                  <th>Email</th>
+                  <th>Ações</th>
                 </tr>
+                <% contatos.forEach(contato => { %>
+                  <tr>
+                    <td><%= contato.nome %></td>
+                    <td><%= contato.sobrenome %></td>
+                    <td><%= contato.telefone %></td>
+                    <td><%= contato.email %></td>
+                    <td>
+                      <a href="/contato/index/<%= contato._id %>" class="btn btn-primary btn-sm">Editar</a>
+                      <a href="/contato/delete/<%= contato._id %>" class="btn btn-danger btn-sm">Excluir</a>
+                    </td>
+                  </tr>
+                <% }) %>
               </table>
-
-              
             </div>
-          </div>
+          <% } else { %>
+            <p class="text-center lead">Não existem contatos na sua agenda.</p>
+          <% } %>
 
         </div>
 
@@ -32,4 +45,3 @@
     </div>
     
 <%- include('includes/footer')  %>
-   
