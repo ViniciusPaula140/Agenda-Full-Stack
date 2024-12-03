@@ -1,7 +1,8 @@
 <% if (errors && errors.length > 0) { %>
     <div class="row">
         <div class="col my-3">
-            <div class="alert alert-danger">
+            <div class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 <% errors.forEach(error => { %>
                     <%= error %><br>
                 <% }); %>
@@ -13,7 +14,8 @@
 <% if (success && success.length > 0) { %>
     <div class="row">
         <div class="col my-3">
-            <div class="alert alert-success">
+            <div class="alert alert-success alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 <% success.forEach(msg => { %>
                     <%= msg %><br>
                 <% }); %>
