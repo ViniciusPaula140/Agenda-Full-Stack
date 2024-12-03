@@ -43,39 +43,69 @@ exports.editIndex = async (req, res) => {
 
 exports.edit = async (req, res) => {
     try {
-        if(!req.params.id) return res.render('404');
+        if(!req.params.id) {
+            req.flash('errors', 'ID do contato não fornecido');
+            req.session.save(() => {
+                return res.redirect('/');
+            });
+            return;
+        }
+
         const contato = new Contato(req.body);
         await contato.edit(req.params.id);
 
         if(contato.errors.length > 0) {
             req.flash('errors', contato.errors);
             req.session.save(() => {
-                return res.redirect(`/contato/index/${req.params.id}`); // Redireciona de volta para a página de edição
+                return res.redirect(`/contato/index/${req.params.id}`);
             });
             return;
         }
 
         req.flash('success', 'Contato editado com sucesso!');
         req.session.save(() => {
-            return res.redirect(`/contato/index/${contato.contato._id}`);
+            return res.redirect(`/`);
         });
+
     } catch(e) {
-        console.log(e);
-        req.flash('errors', 'Erro ao editar o contato');
+        console.error('Erro ao editar contato:', e);
+        req.flash('errors', 'Erro ao editar o contato. Tente novamente.');
         req.session.save(() => {
-            return res.redirect(`/contato/index/${req.params.id}`); // Mantém na página de edição em caso de erro
+            return res.redirect(`/contato/index/${req.params.id}`);
         });
     }
 }
 
 exports.delete = async (req, res) => {
-    if(!req.params.id) return res.render('errorPage');
-    
-    const contato = await Contato.delete(req.params.id);
-    if (!contato) return res.render('errorPage');
+    try {
+        if(!req.params.id) {
+            req.flash('errors', 'ID do contato não fornecido');
+            req.session.save(() => {
+                return res.redirect('/');
+            });
+            return;
+        }
 
-    req.flash('success', 'Contato Excluido com sucesso!');
-    req.session.save(() => {
-        return res.redirect(`/`); 
-    })
+        const contato = await Contato.delete(req.params.id);
+        
+        if(!contato) {
+            req.flash('errors', 'Contato não encontrado.');
+            req.session.save(() => {
+                return res.redirect('/');
+            });
+            return;
+        }
+
+        req.flash('success', 'Contato excluído com sucesso!');
+        req.session.save(() => {
+            return res.redirect('/');
+        });
+
+    } catch(e) {
+        console.error('Erro ao excluir contato:', e);
+        req.flash('errors', 'Erro ao excluir o contato. Tente novamente.');
+        req.session.save(() => {
+            return res.redirect('/');
+        });
+    }
 }

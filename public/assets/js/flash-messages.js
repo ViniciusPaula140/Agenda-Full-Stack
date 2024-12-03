@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messages = document.querySelectorAll('.alert');
     
     messages.forEach(message => {
-        // Aguarda 2,3 segundos antes de começar a desaparecer
+        // Aguarda 1,5 segundos antes de começar a desaparecer
         setTimeout(() => {
             fadeOut(message);
         }, 1500);

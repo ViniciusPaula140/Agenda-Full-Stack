@@ -98,9 +98,28 @@ class Contato {
 
     async edit(id) {
         if(typeof id !== 'string') return;
-        this.valida();
-        if(this.errors.length > 0 ) return;
-        this.contato = await ContatoModel.findByIdAndUpdate(id, this.body, {new: true})
+        
+        try {
+            this.valida();
+            if(this.errors.length > 0) return;
+    
+            this.contato = await ContatoModel.findByIdAndUpdate(
+                id, 
+                this.body, 
+                { 
+                    new: true,  // Retorna o documento atualizado
+                    runValidators: true  // Executa os validadores do Schema
+                }
+            );
+    
+            if(!this.contato) {
+                this.errors.push('Contato não encontrado.');
+                return;
+            }
+        } catch(e) {
+            console.error('Erro ao editar contato:', e);
+            this.errors.push('Erro ao editar o contato.');
+        }
     }
 }
 
