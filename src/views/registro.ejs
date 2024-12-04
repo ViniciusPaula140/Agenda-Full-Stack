@@ -1,0 +1,56 @@
+<%- include('includes/head')  %>
+<%- include('includes/nav')  %>
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-lg-2"></div>
+
+        <div class="col-lg-8 my-3">
+          <h1 class="text-center">Contatos</h1>
+          <p class="text-center lead">Crie ou edite seus contatos</p>
+
+          <%- include('includes/mensagem') %>
+
+          <% if (contato._id) { %>
+            <form action="/contato/edit/<%= contato._id %>" method="POST">
+          <% } else { %>
+          <form action="/contato/register" method="POST">
+          <% } %>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            
+            <div class="mb-3">
+              <label>Nome:</label>
+              <input value="<%= typeof contato.nome != 'undefined' ? contato.nome : '' %>" type="text" class="form-control" name="nome" autocomplete="off">
+            </div>
+
+            <div class="mb-3">
+              <label>Sobrenome:</label>
+              <input value="<%= typeof contato.sobrenome != 'undefined' ? contato.sobrenome : '' %>" 
+              type="text" class="form-control" name="sobrenome" autocomplete="off">
+            </div>
+
+            <div class="mb-3">
+              <label>Email: </label>
+              <input value="<%= typeof contato.email != 'undefined' ? contato.email : '' %>" 
+              type="email" class="form-control" name="email" autocomplete="off">
+            </div>
+
+            <div class="mb-3">
+              <label>Telefone:</label>
+              <input value="<%= typeof contato.telefone != 'undefined' ? contato.telefone : '' %>" 
+              type="tel" class="form-control" name="telefone" autocomplete="off">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Registrar</button>
+          </form>
+
+
+          </div>
+
+        </div>
+
+        <div class="col-lg-2"></div>
+      </div>
+    </div>
+    
+<%- include('includes/footer')  %>
+   
