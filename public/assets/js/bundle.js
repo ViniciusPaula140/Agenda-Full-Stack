@@ -904,7 +904,13 @@ var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBP
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `.alert {
     transition: opacity 0.5s ease-in-out;
-}`, "",{"version":3,"sources":["webpack://./frontend/assets/css/style.css"],"names":[],"mappings":"AAAA;IACI,oCAAoC;AACxC","sourcesContent":[".alert {\r\n    transition: opacity 0.5s ease-in-out;\r\n}"],"sourceRoot":""}]);
+}
+
+.text-truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}`, "",{"version":3,"sources":["webpack://./frontend/assets/css/style.css"],"names":[],"mappings":"AAAA;IACI,oCAAoC;AACxC;;AAEA;IACI,gBAAgB;IAChB,mBAAmB;IACnB,uBAAuB;AAC3B","sourcesContent":[".alert {\r\n    transition: opacity 0.5s ease-in-out;\r\n}\r\n\r\n.text-truncate {\r\n    overflow: hidden;\r\n    white-space: nowrap;\r\n    text-overflow: ellipsis;\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
