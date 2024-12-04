@@ -2,7 +2,7 @@ const Login = require('../models/loginModel')
 
 exports.index = (req, res) => {
     if(req.session.user) {
-        return res.render('login-logado')
+        return res.redirect('/')
     }
     res.render('login');
 }
@@ -68,7 +68,7 @@ exports.login = async (req, res) => {
         req.session.save(function() {
             // E movemos para depois do save da sessão
             req.flash('success', 'Login realizado com sucesso!');
-            return res.redirect('/login/index');
+            return res.redirect('/');
         });
     } catch(e) {
         console.error('Erro no login:', e);

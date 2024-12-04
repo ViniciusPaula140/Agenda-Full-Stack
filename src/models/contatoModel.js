@@ -75,9 +75,9 @@ class Contato {
         }
     }
 
-    static async buscaContatos() {
+    static async buscaContatos(userId) {
         try {
-            const contatos = await ContatoModel.find()
+            const contatos = await ContatoModel.find({ userId })
                 .sort({ criadoEm: -1 }); // -1 para ordem decrescente (mais novos primeiro)
             return contatos;
         } catch(e) {
