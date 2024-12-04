@@ -5,11 +5,18 @@ exports.index = (req, res) => {
 }
 
 exports.register = async (req, res) => {
-    try {      
-        const contato = new Contato(req.body);
+    try {
+        if (!req.session.user) {
+            req.flash('errors', 'Você precisa estar logado para registrar um contato.');
+            return res.redirect('/contato/index');
+        }
+
+        console.log('Usuário logado:', req.session.user); // Verifique o que está armazenado na sessão
+
+        const contato = new Contato({ ...req.body, userId: req.session.user._id }); // Adicionando o userId
         await contato.valida();
 
-        if(contato.errors.length > 0) {
+        if (contato.errors.length > 0) {
             req.flash('errors', contato.errors);
             req.session.save(() => {
                 return res.redirect('/contato/index');
@@ -17,13 +24,13 @@ exports.register = async (req, res) => {
             return;
         }
 
-        await contato.register(); // Adicionando o método register
+        await contato.register();
 
         req.flash('success', 'Contato registrado com sucesso!');
         req.session.save(() => {
             return res.redirect(`/`);
         });
-    } catch(e) {
+    } catch (e) {
         console.log(e);
         req.flash('errors', 'Erro ao salvar o contato');
         req.session.save(() => {

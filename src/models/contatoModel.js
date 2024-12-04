@@ -6,7 +6,8 @@ const ContatoSchema = new mongoose.Schema({
     sobrenome: {type: String, required: false, default:''},
     email: {type: String, required: false, default:''},
     telefone: {type: String, required: false, default:''},
-    criadoEm: {type: Date, default: Date.now}
+    criadoEm: {type: Date, default: Date.now},
+    userId: { type: mongoose.Schema.Types.ObjectId, required: true }
 })
 
 const ContatoModel = mongoose.model('Contato', ContatoSchema)
@@ -59,6 +60,7 @@ class Contato {
             sobrenome: this.body.sobrenome,
             telefone: this.body.telefone,
             email: this.body.email,
+            userId: this.body.userId
         }
     }
 
