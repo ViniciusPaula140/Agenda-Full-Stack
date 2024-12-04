@@ -1,6 +1,89 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./frontend/modules/validator_login.js":
+/*!*********************************************!*\
+  !*** ./frontend/modules/validator_login.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Login)
+/* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var Login = /*#__PURE__*/function () {
+  function Login(formClass) {
+    _classCallCheck(this, Login);
+    this.form = document.querySelector(formClass);
+  }
+  return _createClass(Login, [{
+    key: "init",
+    value: function init() {
+      this.events();
+    }
+  }, {
+    key: "events",
+    value: function events() {
+      var _this = this;
+      if (!this.form) return;
+      this.form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        _this.validate(e);
+      });
+    }
+  }, {
+    key: "validate",
+    value: function validate(e) {
+      var el = e.target;
+      var emailInput = el.querySelector('input[name="email"]');
+      var passwordInput = el.querySelector('input[name="password"]');
+      var error = false;
+
+      // Remove mensagens de erro anteriores
+      this.clearErrors();
+
+      // Validação do email
+      if (!emailInput.value) {
+        this.createError(emailInput, 'Email precisa ser preenchido');
+        error = true;
+      }
+
+      // Validação da senha
+      if (passwordInput.value.length < 3 || passwordInput.value.length > 50) {
+        this.createError(passwordInput, 'Senha precisa ter entre 3 e 50 caracteres');
+        error = true;
+      }
+      if (!error) this.form.submit();
+    }
+  }, {
+    key: "createError",
+    value: function createError(field, msg) {
+      var div = document.createElement('div');
+      div.innerHTML = msg;
+      div.classList.add('text-danger');
+      field.insertAdjacentElement('afterend', div);
+    }
+  }, {
+    key: "clearErrors",
+    value: function clearErrors() {
+      var errorMessages = this.form.querySelectorAll('.text-danger');
+      errorMessages.forEach(function (error) {
+        return error.remove();
+      });
+    }
+  }]);
+}();
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/runtime/api.js":
 /*!*****************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/api.js ***!
@@ -24399,11 +24482,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
 /* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _assets_css_style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./assets/css/style.css */ "./frontend/assets/css/style.css");
+/* harmony import */ var _modules_validator_login__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/validator_login */ "./frontend/modules/validator_login.js");
 
 
-//Import para navegadores mais antigos funcionarem modernidades co JS
 
 
+var cadastro = new _modules_validator_login__WEBPACK_IMPORTED_MODULE_3__["default"]('.login-cadastro');
+var login = new _modules_validator_login__WEBPACK_IMPORTED_MODULE_3__["default"]('.login-login');
+cadastro.init();
+login.init();
 })();
 
 /******/ })()

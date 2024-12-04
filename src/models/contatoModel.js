@@ -87,8 +87,7 @@ class Contato {
     static async delete(id) {
         if(typeof id !== 'string') return;
         try {
-            const contatos = await ContatoModel.findOneAndDelete(id)
-                .sort({ criadoEm: -1 }); // -1 para ordem decrescente (mais novos primeiro)
+            const contatos = await ContatoModel.findOneAndDelete({_id: id}); //filtro para ser deletado
             return contatos;
         } catch(e) {
             console.error('Erro ao buscar contatos:', e);

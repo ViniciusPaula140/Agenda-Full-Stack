@@ -2,7 +2,7 @@ const path = require('path'); //commonJS
 
 module.exports = {
     mode: 'development', 
-    entry: './frontend/main.js', //Arquivo de entrada, caso precise mudar - pode ser o main.js  ou index.js 
+    entry: './src/frontend/main.js', //Arquivo de entrada, caso precise mudar - pode ser o main.js  ou index.js 
     output: {
         path: path.resolve(__dirname, 'public', 'assets', 'js'),
         filename: 'bundle.js'

@@ -30,7 +30,18 @@ const mongoStore = require('connect-mongo');  // Armazenamento de sessões no Mo
 const flash = require('connect-flash');  // Middleware para mensagens flash (mensagens temporárias)
 
 // Configurando o middleware de segurança Helmet (protege contra vulnerabilidades)
-app.use(helmet());  // Helmet é aplicado a todas as rotas do servidor
+
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.jsdelivr.net"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+            imgSrc: ["'self'", "data:", "https:"],
+            connectSrc: ["'self'"],
+        },
+    },
+}));  // Helmet é aplicado a todas as rotas do servidor
 
 // Inicializando middlewares para processamento de dados da requisição
 app.use(express.urlencoded({ extended: true }));  // Middleware para parsing de dados de formulários (URL-encoded)
